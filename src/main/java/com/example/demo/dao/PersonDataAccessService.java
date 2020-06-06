@@ -44,14 +44,20 @@ public class PersonDataAccessService implements PersonDao {
                     UUID personId = UUID.fromString(resultSet.getString("id"));
                     String name = resultSet.getString("name");
                     return new Person(personId, name);
-                });
+                }
+        );
 
         return Optional.ofNullable(person);
     }
 
     @Override
     public int deletePersonById(UUID id) {
-        return 0;
+        final String sql = "DELETE FROM person WHERE id = ?";
+        jdbcTemplate.update(
+            sql, new Object[]{id}
+        );
+
+        return 1;
     }
 
     @Override
